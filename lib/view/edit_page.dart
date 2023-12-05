@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/controller/notes_provider.dart';
 import 'package:notes_app/model/model.dart';
 import 'package:notes_app/services/api_services.dart';
+import 'package:provider/provider.dart';
 
 class EtidPage extends StatefulWidget {
   final title;
@@ -34,6 +36,7 @@ class _EtidPageState extends State<EtidPage> {
   }
 
   AlertDialog YourAlertDialog() {
+    final notepro=Provider.of<NoteProvider>(context);
     return AlertDialog(
       title: Text('ADD NOTES'),
       content: Container(
@@ -66,14 +69,17 @@ class _EtidPageState extends State<EtidPage> {
         ),
       ),
       actions: [
-        TextButton(
-          onPressed: () {
-            edit(id: widget.id);
-            // Your save logic here
-            Navigator.of(context).pop();
-          },
-          child: Text('EDIT'),
-        ),
+       TextButton(
+  onPressed: () {
+    notepro.edit(
+      id: widget.id,
+      title: notescontroller.text,
+      description: notesdescriptioncontroller.text,
+    );
+    Navigator.of(context).pop();
+  },
+  child: Text('EDIT'),
+),
         TextButton(
           onPressed: () {
             Navigator.of(context).pop();
@@ -88,13 +94,13 @@ class _EtidPageState extends State<EtidPage> {
       ),
     );
   }
-  edit({required id})async{
-    var editnote=notescontroller.text;
-    var editnotedescription=notesdescriptioncontroller.text;
+  // edit({required id})async{
+  //   var editnote=notescontroller.text;
+  //   var editnotedescription=notesdescriptioncontroller.text;
 
-  final toModel= Model(title: editnote, description: editnotedescription, id: id);
+  // final toModel= Model(title: editnote, description: editnotedescription, id: id);
 
-  ApiService().editNotes(value:toModel , id: id);
+  // ApiService().editNotes(value:toModel , id: id);
 
-  }
+  // }
 }
